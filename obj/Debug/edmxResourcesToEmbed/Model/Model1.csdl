@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="tourModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ChiPhi">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="MaChiPhi" Type="Int32" />
+    <Property Name="MaDoan" Type="Int32" />
+    <Property Name="GiaTien" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DoanDL" Relationship="Self.FK_ChiPhi_DoanDL" FromRole="ChiPhi" ToRole="DoanDL" />
+    <NavigationProperty Name="LoaiCP" Relationship="Self.FK_ChiPhi_LoaiCP" FromRole="ChiPhi" ToRole="LoaiCP" />
+  </EntityType>
+  <EntityType Name="CTDoan">
+    <Key>
+      <PropertyRef Name="MaDoan" />
+      <PropertyRef Name="MaKhach" />
+    </Key>
+    <Property Name="MaDoan" Type="Int32" Nullable="false" />
+    <Property Name="MaKhach" Type="Int32" Nullable="false" />
+    <Property Name="GhiChu" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="DoanDL" Relationship="Self.FK_CTDoan_DoanDL1" FromRole="CTDoan" ToRole="DoanDL" />
+    <NavigationProperty Name="KhachHang" Relationship="Self.FK_CTDoan_KhachHang1" FromRole="CTDoan" ToRole="KhachHang" />
+  </EntityType>
+  <EntityType Name="CTTour">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaTour" Type="Int32" Nullable="false" />
+    <Property Name="MaDiaDiem" Type="Int32" Nullable="false" />
+    <Property Name="ThuTu" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="DiaDiem" Relationship="Self.FK_CTTour_DiaDiem" FromRole="CTTour" ToRole="DiaDiem" />
+    <NavigationProperty Name="Tour" Relationship="Self.FK_CTTour_Tour" FromRole="CTTour" ToRole="Tour" />
+  </EntityType>
+  <EntityType Name="DiaDiem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ten" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CTTours" Relationship="Self.FK_CTTour_DiaDiem" FromRole="DiaDiem" ToRole="CTTour" />
+  </EntityType>
+  <EntityType Name="DoanDL">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ten" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="KhoiHanh" Type="DateTime" Precision="0" />
+    <Property Name="KetThuc" Type="DateTime" Precision="0" />
+    <Property Name="LichTrinh" Type="Int32" />
+    <Property Name="MaTour" Type="Int32" />
+    <NavigationProperty Name="ChiPhis" Relationship="Self.FK_ChiPhi_DoanDL" FromRole="DoanDL" ToRole="ChiPhi" />
+    <NavigationProperty Name="CTDoans" Relationship="Self.FK_CTDoan_DoanDL1" FromRole="DoanDL" ToRole="CTDoan" />
+    <NavigationProperty Name="Tour" Relationship="Self.FK_DoanDL_Tour" FromRole="DoanDL" ToRole="Tour" />
+  </EntityType>
+  <EntityType Name="Gia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Gia1" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="BatDau" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="KetThuc" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="MaTour" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Tour" Relationship="Self.FK_Gia_Tour" FromRole="Gia" ToRole="Tour" />
+  </EntityType>
+  <EntityType Name="KhachHang">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ten" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="CMND" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+    <Property Name="SDT" Type="String" MaxLength="11" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="CTDoans" Relationship="Self.FK_CTDoan_KhachHang1" FromRole="KhachHang" ToRole="CTDoan" />
+  </EntityType>
+  <EntityType Name="LoaiCP">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ten" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ChiPhis" Relationship="Self.FK_ChiPhi_LoaiCP" FromRole="LoaiCP" ToRole="ChiPhi" />
+  </EntityType>
+  <EntityType Name="LoaiTour">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ten" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Tours" Relationship="Self.FK_Tour_LoaiTour" FromRole="LoaiTour" ToRole="Tour" />
+  </EntityType>
+  <EntityType Name="NhanVien">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ten" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="VaiTro" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Tour">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Ten" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+    <Property Name="DacDiem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MaLoaiTour" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CTTours" Relationship="Self.FK_CTTour_Tour" FromRole="Tour" ToRole="CTTour" />
+    <NavigationProperty Name="DoanDLs" Relationship="Self.FK_DoanDL_Tour" FromRole="Tour" ToRole="DoanDL" />
+    <NavigationProperty Name="Gias" Relationship="Self.FK_Gia_Tour" FromRole="Tour" ToRole="Gia" />
+    <NavigationProperty Name="LoaiTour" Relationship="Self.FK_Tour_LoaiTour" FromRole="Tour" ToRole="LoaiTour" />
+  </EntityType>
+  <Association Name="FK_ChiPhi_DoanDL">
+    <End Role="DoanDL" Type="Self.DoanDL" Multiplicity="0..1" />
+    <End Role="ChiPhi" Type="Self.ChiPhi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DoanDL">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChiPhi">
+        <PropertyRef Name="MaDoan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChiPhi_LoaiCP">
+    <End Role="LoaiCP" Type="Self.LoaiCP" Multiplicity="0..1" />
+    <End Role="ChiPhi" Type="Self.ChiPhi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoaiCP">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChiPhi">
+        <PropertyRef Name="MaChiPhi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CTDoan_DoanDL1">
+    <End Role="DoanDL" Type="Self.DoanDL" Multiplicity="1" />
+    <End Role="CTDoan" Type="Self.CTDoan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DoanDL">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CTDoan">
+        <PropertyRef Name="MaDoan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CTDoan_KhachHang1">
+    <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+    <End Role="CTDoan" Type="Self.CTDoan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KhachHang">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CTDoan">
+        <PropertyRef Name="MaKhach" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CTTour_DiaDiem">
+    <End Role="DiaDiem" Type="Self.DiaDiem" Multiplicity="1" />
+    <End Role="CTTour" Type="Self.CTTour" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DiaDiem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CTTour">
+        <PropertyRef Name="MaDiaDiem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CTTour_Tour">
+    <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+    <End Role="CTTour" Type="Self.CTTour" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tour">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CTTour">
+        <PropertyRef Name="MaTour" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DoanDL_Tour">
+    <End Role="Tour" Type="Self.Tour" Multiplicity="0..1" />
+    <End Role="DoanDL" Type="Self.DoanDL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tour">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DoanDL">
+        <PropertyRef Name="MaTour" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Gia_Tour">
+    <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+    <End Role="Gia" Type="Self.Gia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tour">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Gia">
+        <PropertyRef Name="MaTour" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tour_LoaiTour">
+    <End Role="LoaiTour" Type="Self.LoaiTour" Multiplicity="1" />
+    <End Role="Tour" Type="Self.Tour" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LoaiTour">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tour">
+        <PropertyRef Name="MaLoaiTour" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="tourEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ChiPhis" EntityType="Self.ChiPhi" />
+    <EntitySet Name="CTDoans" EntityType="Self.CTDoan" />
+    <EntitySet Name="CTTours" EntityType="Self.CTTour" />
+    <EntitySet Name="DiaDiems" EntityType="Self.DiaDiem" />
+    <EntitySet Name="DoanDLs" EntityType="Self.DoanDL" />
+    <EntitySet Name="Gias" EntityType="Self.Gia" />
+    <EntitySet Name="KhachHangs" EntityType="Self.KhachHang" />
+    <EntitySet Name="LoaiCPs" EntityType="Self.LoaiCP" />
+    <EntitySet Name="LoaiTours" EntityType="Self.LoaiTour" />
+    <EntitySet Name="NhanViens" EntityType="Self.NhanVien" />
+    <EntitySet Name="Tours" EntityType="Self.Tour" />
+    <AssociationSet Name="FK_ChiPhi_DoanDL" Association="Self.FK_ChiPhi_DoanDL">
+      <End Role="DoanDL" EntitySet="DoanDLs" />
+      <End Role="ChiPhi" EntitySet="ChiPhis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChiPhi_LoaiCP" Association="Self.FK_ChiPhi_LoaiCP">
+      <End Role="LoaiCP" EntitySet="LoaiCPs" />
+      <End Role="ChiPhi" EntitySet="ChiPhis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CTDoan_DoanDL1" Association="Self.FK_CTDoan_DoanDL1">
+      <End Role="DoanDL" EntitySet="DoanDLs" />
+      <End Role="CTDoan" EntitySet="CTDoans" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CTDoan_KhachHang1" Association="Self.FK_CTDoan_KhachHang1">
+      <End Role="KhachHang" EntitySet="KhachHangs" />
+      <End Role="CTDoan" EntitySet="CTDoans" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CTTour_DiaDiem" Association="Self.FK_CTTour_DiaDiem">
+      <End Role="DiaDiem" EntitySet="DiaDiems" />
+      <End Role="CTTour" EntitySet="CTTours" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CTTour_Tour" Association="Self.FK_CTTour_Tour">
+      <End Role="Tour" EntitySet="Tours" />
+      <End Role="CTTour" EntitySet="CTTours" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DoanDL_Tour" Association="Self.FK_DoanDL_Tour">
+      <End Role="Tour" EntitySet="Tours" />
+      <End Role="DoanDL" EntitySet="DoanDLs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Gia_Tour" Association="Self.FK_Gia_Tour">
+      <End Role="Tour" EntitySet="Tours" />
+      <End Role="Gia" EntitySet="Gias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tour_LoaiTour" Association="Self.FK_Tour_LoaiTour">
+      <End Role="LoaiTour" EntitySet="LoaiTours" />
+      <End Role="Tour" EntitySet="Tours" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
